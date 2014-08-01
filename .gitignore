@@ -1,0 +1,8 @@
+# ignore these Scheme generated files
+*.bci
+*.bin
+*.com
+
+# ignore these vi-related files
+*.swp
+*.swo
