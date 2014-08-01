@@ -6,3 +6,6 @@
 # ignore these vi-related files
 *.swp
 *.swo
+
+# ignore code template file
+_sicp-template
