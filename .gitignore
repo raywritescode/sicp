@@ -9,3 +9,6 @@
 
 # ignore code template file
 _sicp-template
+
+# ignore folder that holds procedure definitions files
+definitions
