@@ -1,5 +1,5 @@
 ; Ray Santos (raywritescode.com)
-; August 11, 2014
+; August 12, 2014
 ;
 ; Structure and Interpretation of Computer Programs, Second Edition.
 ;
@@ -19,11 +19,16 @@
 ; Newton's method in general as an abstraction of these square-root and
 ; cube-root procedures.)
 
-(define (good-enough? guess x)
-   (< (abs (- (cube guess) x)) 0.001)
+(define (cube x)
+   (* x x x))
 
 (define (improve guess x)
-   (approximation ))         ; todo
+   (/ (+ (/ x (square guess))
+         (* 2 guess))
+      3))
+
+(define (good-enough? guess x)
+   (< (abs (- (cube guess) x)) 0.001))
 
 (define (cube-iter guess x)
    (if (good-enough? guess x)
@@ -31,5 +36,16 @@
       (cube-iter (improve guess x)
                  x)))
 
-(define (cube x)
+(define (cubert x)
    (cube-iter 1.0 x))
+
+; Test runs
+
+;1 ]=> (cubert 8)
+;Value: 2.000004911675504
+
+;1 ]=> (cubert 27)
+;Value: 3.0000005410641766
+
+;1 ]=> (cubert 125)
+;Value: 5.000000000287929
