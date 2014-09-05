@@ -1,5 +1,5 @@
 ; Ray Santos (raywritescode.com)
-; August 1, 2014
+; September 4, 2014
 ;
 ; Structure and Interpretation of Computer Programs, Second Edition.
 ;
@@ -10,41 +10,81 @@
 
 ; rsantos notes
 ;
+;   [This updated version fixes the problem identified by khirbat in a github 
+;   comment on commit 6a4d114]
+;
+;   Using ONLY the Scheme constructs introduced up through page 21 of the SICP book.
+;
 ;   Here's how I expect the procedure to operate.
-;      Entering the command: (three-number-args 5 4 6)
+;      Entering the command: (sum-squared-two-largest 5 4 6)
 ;      Returns: 61
 ;
-;      Entering the command: (three-number-args 3 3 3)
+;      Entering the command: (sum-squared-two-largest 4 6 5)
+;      Returns: 61
+;
+;      Entering the command: (sum-squared-two-largest 6 5 4)
+;      Returns: 61
+;
+;      Entering the command: (sum-squared-two-largest 3 3 3)
 ;      Returns: 18
 ;
-;   What I already know how to do
-;      square a number: (* a a)
-;      sum two numbers; (+ a b)
-;                  
-;   pseudocode to find the largest of three numbers
-;      if first is larger than second, first is larger, otherwise second is larger.
-;      if second is larger than third, second is larger, otherwise third is larger. 
-;      sum the squares of the two larger numbers.
+;   pseudocode to find the sum of the squares of the largest two of three numbers.
+;      get the largest number
+;      get the smallest number
+;      get the second largest number
+;         sum the three numbers
+;         sum the largest and smallest numbers
+;         subtract the second sum from the first sum
+;      sum the squared largest and second largest numbers
+;      
+; version 4
 
-; version 1
-(define (three-number-args1 x y z)
-   (+ (cond ((> x y) (* x x))      ;simpler to return the larger number squared 
-            ((= x y) (* x x))
-            ((< x y) (* y y)))
-      (cond ((> y z) (* y y))
-            ((= y z) (* y y))
-            ((< y z) (* z z)))))
+; get the largest number
+
+(define (larger first second)
+   (cond ((> first second) first)
+         ((< first second) second)
+         (else first)))
+
+(define (largest x y z)
+   (larger x (larger y z)))
+
+; get the smallest number
+
+(define (smaller first second)
+   (cond ((> first second) second)
+         ((< first second) first)
+         (else first)))
+
+(define (smallest x y z)
+   (smaller x (smaller y z)))
+
+; get the second largest number
+
+(define (middle x y z)
+   (- (+ x y z)
+      (+ (largest x y z)
+         (smallest x y z))))
+
+; sum the squared largest and squared second largest numbers
+
+(define (square x)
+   (* x x))
+
+(define (sum-squared-two-largest x y z)
+   (+ (square (largest x y z))
+      (square (middle x y z))))
 
 
-; version 2 
-(define (three-number-args2 x y z)
-   (+ (cond ((> x y) (* x x))
-            (else (* y y)))
-      (cond ((> y z) (* y y))
-            (else (* z z)))))
-
-
-; version 3
-(define (three-number-args3 x y z)
-   (+ (if (> x y) (* x x) (* y y))
-      (if (> y z) (* y y) (* z z))))
+; Test runs
+;    1 ]=> (sum-squared-two-largest 5 4 6)
+;    Value: 61
+;
+;    1 ]=> (sum-squared-two-largest 4 6 5)
+;    Value: 61
+;
+;    1 ]=> (sum-squared-two-largest 6 5 4)
+;    Value: 61
+;
+;    1 ]=> (sum-squared-two-largest 3 3 3)
+;    Value: 18
