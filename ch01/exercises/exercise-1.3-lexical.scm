@@ -1,5 +1,5 @@
 ; Ray Santos (raywritescode.com)
-; September 5, 2014
+; September 8, 2014
 ;
 ; Structure and Interpretation of Computer Programs, Second Edition.
 ;
@@ -43,7 +43,7 @@
             ((< first second) second)
             (else first)))
 
-   (define (largest x y z)
+   (define (largest)
       (larger x (larger y z)))
 
    (define (smaller first second)
@@ -51,16 +51,16 @@
             ((< first second) first)
             (else first)))
 
-   (define (smallest x y z)
+   (define (smallest)
       (smaller x (smaller y z)))
 
-   (define (middle x y z)
+   (define (middle)
       (- (+ x y z)
-         (+ (largest x y z)
-            (smallest x y z))))
+         (+ (largest)
+            (smallest))))
 
    (define (square x)
       (* x x))
 
-   (+ (square (largest x y z))
-      (square (middle x y z))))
+   (+ (square (largest))
+      (square (middle))))
